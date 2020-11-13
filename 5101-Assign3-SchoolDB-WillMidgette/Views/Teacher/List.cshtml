@@ -27,6 +27,7 @@
 
 </form>
 
+<!--Lists each teacher as a link to a show view with more information about that teacher -->
 @foreach (var teacher in Model)
 {
    <div><a href="/teacher/show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></div>

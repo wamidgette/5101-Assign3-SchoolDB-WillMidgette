@@ -8,7 +8,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Models
 {
     public class SchoolDBContext
     {
-        //The following code utilized Christine Bittle's BlogProject code as a template
+        //The following code utilized Christine Bittle's BlogProject code as a template for this solution
         //Below defined are the properties to access Christine Bittle's school database
 
         private static string User { get { return "humber_student"; } }

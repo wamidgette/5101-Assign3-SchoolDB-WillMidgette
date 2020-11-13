@@ -16,6 +16,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         }
 
         //GET : /Teacher/list
+        //returns list view of all teachers in database
         public ActionResult List()
         {
             TeacherDataController controller = new TeacherDataController();
@@ -23,6 +24,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             return View(Teachers);
         }
         //Get : Teacher/show/{id}
+        //takes integer value and uses findteacher method to display additional information about a specific teacher
         public ActionResult Show(int id)
         {
             TeacherDataController controller = new TeacherDataController();
@@ -40,6 +42,8 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         /// <returns>Returns list of teachers as NewTeacher and sends to Search view </returns>
         /// 
         //Get : Teacher/Search/{Fname}/{id}/{EmpNumber}
+        //This method takes input from the html form on the list view and sends it to the searchteachers method of the teacherdatacontroller 
+        //The result is sent to the search view 
         public ActionResult Search(string FName, int id, string EmpNumber)
         {
             TeacherDataController controller = new TeacherDataController();

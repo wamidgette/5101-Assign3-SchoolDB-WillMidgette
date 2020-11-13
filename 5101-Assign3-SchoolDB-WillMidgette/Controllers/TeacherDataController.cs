@@ -52,6 +52,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherLname = TeacherLname;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
                 NewTeacher.HireDate = HireDate;
                 //adds this iteration's NewTeacher to the list of teachers 
@@ -95,6 +96,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
 
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherLname = TeacherLname;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
                 NewTeacher.HireDate = HireDate;
             }
@@ -110,8 +112,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         /// <returns> returns a list of teachers matching search</returns>
         [HttpGet]
         [Route("api/teacherdata/searchteachers/{Name}/{id}/{EmpNumber}")]
-         
-        //C# did not allow me to make string inputs nullable 
+        //C# did not allow me to make string inputs nullable so the user must input all 3 variables to recieve a search result 
         public IEnumerable<Teacher> SearchTeachers (string FName, int id, string EmpNumber)
         {
 
@@ -121,12 +122,15 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
 
             MySqlCommand cmd = Conn.CreateCommand();
 
+            //Inputs the arguments of this method into the MySql query 
             cmd.CommandText = "Select * from teachers WHERE (teacherfname LIKE '%" + FName + "%' AND teacherid LIKE '%" + id + "%' AND employeenumber LIKE '%" + EmpNumber + "%')";
 
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
             List<Teacher> Teachers = new List<Teacher> { };
 
+            //I wrote this as a loop because ideally, a user could search by only 1 of the 3 arguments (name or id or empnumber)
+            //in this case, there would be multiple teacher results from the database 
             while (ResultSet.Read())
             {
 
@@ -139,6 +143,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
                 Teacher NewTeacher = new Teacher();
                 NewTeacher.TeacherId = TeacherId;
                 NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherLname = TeacherLname;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
                 NewTeacher.HireDate = HireDate;
                 //adds this iteration's NewTeacher to the list of teachers 
