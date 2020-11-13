@@ -1,0 +1,33 @@
+﻿@model IEnumerable<_5101_Assign3_SchoolDB_WillMidgette.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List of Teachers</h2>
+<p>Search from teachers using the following search function or </p>
+<!-- The following is a search option that takes a teacher's first name, teacher id, and employee number
+//and passes the information to the TeacherController, then the TeacherDataController, and returns 
+//a specific teacher's information in the Search view. I realize if a searcher knows the teacher's ID
+//it is pretty redundant to enter the first name and empnumber but I just wanted to show how I would go 
+//about taking multiple inputs-->
+<form action="/Teacher/Search" method="GET">
+    <div>
+        <label for="FName"> First Name:</label>
+        <input type="text" id="FName" name="FName" />
+    </div>
+    <div>
+        <label for="id"> id:</label>
+        <input type="text" id="id" name="id" />
+    </div>
+    <div>
+        <label for="EmpNumber"> EmpNumber:</label>
+        <input type="text" id="EmpNumber" name="EmpNumber" />
+    </div>
+    <input type="submit" />
+
+</form>
+
+@foreach (var teacher in Model)
+{
+   <div><a href="/teacher/show/@teacher.TeacherId">@teacher.TeacherFname @teacher.TeacherLname</a></div>
+}

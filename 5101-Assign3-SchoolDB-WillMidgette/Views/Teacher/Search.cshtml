@@ -1,0 +1,14 @@
+﻿@model IEnumerable<_5101_Assign3_SchoolDB_WillMidgette.Models.Teacher>
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search Results</h2>
+@foreach (var teacher in Model)
+{
+    <p>Teacher Name:@teacher.TeacherFname @teacher.TeacherLname </p>
+    <p>Teacher ID:@teacher.TeacherId </p>
+    <p>EmployeeNumber:@teacher.EmployeeNumber </p>
+    <p>HireDate:@teacher.HireDate</p>
+}
+<a href="/teacher/list">Back</a>
