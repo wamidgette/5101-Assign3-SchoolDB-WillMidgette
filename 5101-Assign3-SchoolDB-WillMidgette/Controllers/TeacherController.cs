@@ -15,13 +15,24 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             return View();
         }
 
-        //GET : /Teacher/list
-        //returns list view of all teachers in database
-        public ActionResult List()
+        /// <summary>
+        /// This method recieve's html get request from the search bar on the list view and passes the first name, id, empnumber
+        /// to the TeacherDataList method in TeacherData Api Controller. Parameters are optional
+        /// </summary>
+        /// <param name="FName"></param>
+        /// <param name="id"></param>
+        /// <param name="EmpNumber"></param>
+        /// <returns>Returns list of teachers as NewTeacher and sends to Search view </returns>
+        /// 
+        //Get : Teacher/Search/{Fname}/{id}/{EmpNumber}
+        //This method takes input from the html form on the list view and sends it to the searchteachers method of the teacherdatacontroller 
+        //The result is sent to the search view 
+        public ActionResult List(string FName = null, int? id, string EmpNumber = null)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = controller.TeacherDataList();
+            IEnumerable<Teacher> Teachers = controller.TeacherDataList(FName, id, EmpNumber);
             return View(Teachers);
+            
         }
         //Get : Teacher/show/{id}
         //takes integer value and uses findteacher method to display additional information about a specific teacher
@@ -32,25 +43,14 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             
             return View(NewTeacher);
         }
-        /// <summary>
-        /// This method recieve's html get request from the search bar on the list view and passes the first name, id, empnumber
-        /// to the SearchTeacher method in TeacherData Api Controller
-        /// </summary>
-        /// <param name="FName"></param>
-        /// <param name="id"></param>
-        /// <param name="EmpNumber"></param>
-        /// <returns>Returns list of teachers as NewTeacher and sends to Search view </returns>
-        /// 
-        //Get : Teacher/Search/{Fname}/{id}/{EmpNumber}
-        //This method takes input from the html form on the list view and sends it to the searchteachers method of the teacherdatacontroller 
-        //The result is sent to the search view 
-        public ActionResult Search(string FName, int id, string EmpNumber)
+
+        /*public ActionResult Search(string FName, int id, string EmpNumber)
         {
             TeacherDataController controller = new TeacherDataController();
             IEnumerable<Teacher> NewTeacher = controller.SearchTeachers(FName, id, EmpNumber);
 
             return View(NewTeacher);
-        }
+        }*/
 
     }
 }

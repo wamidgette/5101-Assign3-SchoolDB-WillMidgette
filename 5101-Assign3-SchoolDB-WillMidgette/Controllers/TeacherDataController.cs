@@ -16,7 +16,8 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         private SchoolDBContext school = new SchoolDBContext();
 
         [HttpGet]
-        public IEnumerable<Teacher> TeacherDataList()
+        [Route("api/teacherdata/teacherdatalist/{Name?}/{id?}/{EmpNumber?}")]
+        public IEnumerable<Teacher> TeacherDataList(string FName, int id, string EmpNumber)
         {
             //create instance of MySqlConnection "Conn" and call the AccessDatabase
             //method to access the school database 
@@ -29,7 +30,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             MySqlCommand cmd = Conn.CreateCommand();
 
             //Tell mysql what data to return from Teachers 
-            cmd.CommandText = "Select * FROM teachers";
+            cmd.CommandText = "Select * from teachers WHERE (teacherfname LIKE '%" + FName + "%' AND teacherid LIKE '%" + id + "%' AND employeenumber LIKE '%" + EmpNumber + "%')";
 
             //MySql returns data in table format - must be read thru 
             //datareader for web api to interpret
@@ -110,8 +111,8 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         /// <param name="id"></param>
         /// <param name="EmpNumber"></param>
         /// <returns> returns a list of teachers matching search</returns>
-        [HttpGet]
-        [Route("api/teacherdata/searchteachers/{Name}/{id}/{EmpNumber}")]
+        /*[HttpGet]
+        [Route("api/teacherdata/teacherdatalist/{Name}/{id}/{EmpNumber}")]
         //C# did not allow me to make string inputs nullable so the user must input all 3 variables to recieve a search result 
         public IEnumerable<Teacher> SearchTeachers (string FName, int id, string EmpNumber)
         {
@@ -151,7 +152,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             }
 
             return Teachers;
-        }
+        }*/
 
     }
 }
