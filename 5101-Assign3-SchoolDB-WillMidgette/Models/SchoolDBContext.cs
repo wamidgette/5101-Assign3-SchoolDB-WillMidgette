@@ -11,10 +11,10 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Models
         //The following code utilized Christine Bittle's BlogProject code as a template for this solution
         //Below defined are the properties to access Christine Bittle's school database
 
-        private static string User { get { return "humber_student"; } }
-        private static string Password { get { return "humberisgreat"; } }
-        private static string Database { get { return "humber_school"; } }
-        private static string Server { get { return "bittsdevelopment.com"; } }
+        private static string User { get { return "root"; } }
+        private static string Password { get { return "root"; } }
+        private static string Database { get { return "school"; } }
+        private static string Server { get { return "localhost"; } }
         private static string Port { get { return "3306"; } }
 
         //ConnectionString combines the properties above into a single string to access the database

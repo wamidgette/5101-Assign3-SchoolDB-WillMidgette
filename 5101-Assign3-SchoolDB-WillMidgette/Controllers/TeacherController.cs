@@ -27,10 +27,10 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         //Get : Teacher/Search/{Fname}/{id}/{EmpNumber}
         //This method takes input from the html form on the list view and sends it to the searchteachers method of the teacherdatacontroller 
         //The result is sent to the search view 
-        public ActionResult List(string FName = null, int? id, string EmpNumber = null)
+        public ActionResult List(string searchKey= null)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> Teachers = controller.TeacherDataList(FName, id, EmpNumber);
+            IEnumerable<Teacher> Teachers = controller.TeacherDataList(searchKey);
             return View(Teachers);
             
         }
@@ -40,7 +40,6 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         {
             TeacherDataController controller = new TeacherDataController();
             Teacher NewTeacher = controller.FindTeacher(id);
-            
             return View(NewTeacher);
         }
 

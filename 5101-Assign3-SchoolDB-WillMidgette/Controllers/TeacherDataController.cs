@@ -16,8 +16,8 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         private SchoolDBContext school = new SchoolDBContext();
 
         [HttpGet]
-        [Route("api/teacherdata/teacherdatalist/{Name?}/{id?}/{EmpNumber?}")]
-        public IEnumerable<Teacher> TeacherDataList(string FName, int id, string EmpNumber)
+        [Route("api/teacherdata/teacherdatalist/{searchKey?}")]
+        public IEnumerable<Teacher> TeacherDataList(string searchkey =null)
         {
             //create instance of MySqlConnection "Conn" and call the AccessDatabase
             //method to access the school database 
@@ -28,10 +28,11 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
 
             //create command or query to mysql database 
             MySqlCommand cmd = Conn.CreateCommand();
-
             //Tell mysql what data to return from Teachers 
-            cmd.CommandText = "Select * from teachers WHERE (teacherfname LIKE '%" + FName + "%' AND teacherid LIKE '%" + id + "%' AND employeenumber LIKE '%" + EmpNumber + "%')";
-
+            cmd.CommandText = "Select * from teachers WHERE (teacherfname LIKE @key OR teacherid LIKE  @key  OR teacherlname LIKE @key)";
+            //paramatize 
+            cmd.Parameters.AddWithValue("@key","%" + searchkey + "%");
+            cmd.Prepare();
             //MySql returns data in table format - must be read thru 
             //datareader for web api to interpret
             MySqlDataReader ResultSet = cmd.ExecuteReader();
