@@ -108,6 +108,10 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
 
             return NewTeacher;
         }
+        /// <summary>
+        /// method deletes teacher from database using the teacherid id in the query 
+        /// </summary>
+        /// <param name="id"></param>
         [HttpPost]
         public void DeleteTeacher(int id)
         {
@@ -121,13 +125,22 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             //create command or query to mysql database 
             MySqlCommand cmd = Conn.CreateCommand();
 
-            //Tell mysql what data to return from Teachers - I want all of it
+            //Delete command
             cmd.CommandText = "DELETE FROM teachers where teacherid=@id";
+            //Sanitize 
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Prepare();
             cmd.ExecuteNonQuery();
             Conn.Close();
         }
+        /// <summary>
+        /// Adds teacher to the database from the parameters taken from user fields 
+        /// </summary>
+        /// <param name="fName"></param>
+        /// <param name="lName"></param>
+        /// <param name="empNum"></param>
+        /// <param name="hireDateString"></param>
+        /// <param name="salary"></param>
         [HttpPost]
         [Route("api/teacherdata/AddTeacher/{fName}/{lName}/{empNum}/{hireDate}")]
         public void AddTeacher(string fName, string lName, string empNum, string hireDateString, decimal salary)
@@ -137,8 +150,9 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             Conn.Open();
 
             MySqlCommand Cmd = Conn.CreateCommand();
-            //Cmd.CommandText = "Insert into teachers(teacherfname, teacherlname, employeenumber, hiredate, salary) Values('" + fName + "','" + lName + "','" + empNum + "', '" + hireDateString + "', " + salary + ")";
+            //Create mysql command 
             Cmd.CommandText = "Insert into teachers(teacherfname, teacherlname, employeenumber, hiredate, salary) Values(@firstName,@lastName,@employeeNumber,@hireDate, @salary)";
+            //sanitize 
             Cmd.Parameters.AddWithValue("@firstName", fName);
             Cmd.Parameters.AddWithValue("@lastName", lName);
             Cmd.Parameters.AddWithValue("@employeeNumber", empNum);

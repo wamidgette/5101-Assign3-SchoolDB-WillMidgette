@@ -42,7 +42,11 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             Teacher NewTeacher = controller.FindTeacher(id);
             return View(NewTeacher);
         }
-
+        /// <summary>
+        /// calls the findteacher method and returns the appropriate teacher. Sends model to view Confirm Delete
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult ConfirmDelete(int id)
         {
             TeacherDataController controller = new TeacherDataController();
@@ -64,6 +68,17 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// Add view sends parameters from input fields. No parameters are nullable. 
+        /// Information is sent to the AddTeacher method in the API controller. 
+        /// hireDate is converted to a string before sent to API controller
+        /// </summary>
+        /// <param name="fName"></param>
+        /// <param name="lName"></param>
+        /// <param name="empNum"></param>
+        /// <param name="hireDate"></param>
+        /// <param name="salary"></param>
+        /// <returns>After teacher has been added to database, redirects to the TeacherAdded view, lettign the user know the info was input sucessfully</returns>
         [HttpPost]
         public ActionResult AddTeacher(string fName, string lName, string empNum, DateTime hireDate, decimal salary)
         {
@@ -73,7 +88,10 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             controller.AddTeacher(fName, lName, empNum, hireDateString, salary);
             return RedirectToAction("TeacherAdded");
         }
-       
+       /// <summary>
+       /// Lets user know the teacher was entered sucessfuly 
+       /// </summary>
+       /// <returns>view TeacherAdded </returns>
         public ActionResult TeacherAdded()
         {
             return View();
