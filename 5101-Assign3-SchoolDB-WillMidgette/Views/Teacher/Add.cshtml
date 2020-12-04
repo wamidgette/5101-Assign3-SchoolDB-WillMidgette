@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add a Teacher to the Database</h2>
+<h3>Enter the teacher information in the fields below. When complete, click Add Teacher</h3>
+<form action="/teacher/addteacher" method="POST">
+    <div>
+        <label for="fName">Teacher First Name:</label>
+        <input type="text" id="fName" name="fName" />
+    </div>
+    <div>
+        <label for="lName">Teacher Last Name:</label>
+        <input type="text" id="lName" name="lName" />
+    </div>
+    <div>
+        <label for="empNum">Teacher Employee Number:</label>
+        <input type="text" id="empNum" name="empNum" />
+    </div>
+    <div>
+        <label for="hireDate">Teacher Hire Date:</label>
+        <input type="datetime" id="hireDate" name="hireDate" />
+    </div>
+    <div>
+        <label for="salary">TeacherSalary:</label>
+        <input type="number" step="any "id="salary" name="salary" />
+    </div>
+    <button type="submit">Add Teacher</button>
+</form>
+

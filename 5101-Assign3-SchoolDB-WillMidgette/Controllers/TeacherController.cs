@@ -16,7 +16,7 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         }
 
         /// <summary>
-        /// This method recieve's html get request from the search bar on the list view and passes the first name, id, empnumber
+        /// This method recieve's html get request from the search bar on the list view and passes the searchKey
         /// to the TeacherDataList method in TeacherData Api Controller. Parameters are optional
         /// </summary>
         /// <param name="FName"></param>
@@ -24,15 +24,15 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
         /// <param name="EmpNumber"></param>
         /// <returns>Returns list of teachers as NewTeacher and sends to Search view </returns>
         /// 
-        //Get : Teacher/Search/{Fname}/{id}/{EmpNumber}
+        //Get : Teacher/List/{searchKey?}
         //This method takes input from the html form on the list view and sends it to the searchteachers method of the teacherdatacontroller 
         //The result is sent to the search view 
-        public ActionResult List(string searchKey= null)
+        public ActionResult List(string searchKey = null)
         {
             TeacherDataController controller = new TeacherDataController();
             IEnumerable<Teacher> Teachers = controller.TeacherDataList(searchKey);
             return View(Teachers);
-            
+
         }
         //Get : Teacher/show/{id}
         //takes integer value and uses findteacher method to display additional information about a specific teacher
@@ -43,13 +43,41 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
             return View(NewTeacher);
         }
 
-        /*public ActionResult Search(string FName, int id, string EmpNumber)
+        public ActionResult ConfirmDelete(int id)
         {
             TeacherDataController controller = new TeacherDataController();
-            IEnumerable<Teacher> NewTeacher = controller.SearchTeachers(FName, id, EmpNumber);
-
+            Teacher NewTeacher = controller.FindTeacher(id);
             return View(NewTeacher);
-        }*/
+        }
+        [HttpPost]
+        public ActionResult DeleteTeacher(int id)
+        {
+            TeacherDataController controller = new TeacherDataController();
+            controller.DeleteTeacher(id);
+            return RedirectToAction("Deleted");
+        }
+        public ActionResult Deleted()
+        {
+            return View();
+        }
+        public ActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddTeacher(string fName, string lName, string empNum, DateTime hireDate, decimal salary)
+        {
+            
+            TeacherDataController controller = new TeacherDataController();
+            var hireDateString = hireDate.ToString("yyyy-MM-dd");
+            controller.AddTeacher(fName, lName, empNum, hireDateString, salary);
+            return RedirectToAction("TeacherAdded");
+        }
+       
+        public ActionResult TeacherAdded()
+        {
+            return View();
+        }
 
     }
 }

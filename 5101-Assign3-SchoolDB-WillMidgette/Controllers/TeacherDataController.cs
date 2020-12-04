@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using _5101_Assign3_SchoolDB_WillMidgette.Models;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 
 namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
@@ -103,57 +104,52 @@ namespace _5101_Assign3_SchoolDB_WillMidgette.Controllers
                 NewTeacher.HireDate = HireDate;
             }
 
+            Conn.Close();
+
             return NewTeacher;
         }
-        /// <summary>
-        /// Recieves Fname, id, and empnumber thru http get request, 
-        /// </summary>
-        /// <param name="FName"></param>
-        /// <param name="id"></param>
-        /// <param name="EmpNumber"></param>
-        /// <returns> returns a list of teachers matching search</returns>
-        /*[HttpGet]
-        [Route("api/teacherdata/teacherdatalist/{Name}/{id}/{EmpNumber}")]
-        //C# did not allow me to make string inputs nullable so the user must input all 3 variables to recieve a search result 
-        public IEnumerable<Teacher> SearchTeachers (string FName, int id, string EmpNumber)
+        [HttpPost]
+        public void DeleteTeacher(int id)
         {
+            //create instance of MySqlConnection "Conn" and call the AccessDatabase
+            //method to access the school database 
+            MySqlConnection Conn = school.AccessDatabase();
 
+            //open the connection to database
+            Conn.Open();
+
+            //create command or query to mysql database 
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //Tell mysql what data to return from Teachers - I want all of it
+            cmd.CommandText = "DELETE FROM teachers where teacherid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+            Conn.Close();
+        }
+        [HttpPost]
+        [Route("api/teacherdata/AddTeacher/{fName}/{lName}/{empNum}/{hireDate}")]
+        public void AddTeacher(string fName, string lName, string empNum, string hireDateString, decimal salary)
+        {
             MySqlConnection Conn = school.AccessDatabase();
 
             Conn.Open();
 
-            MySqlCommand cmd = Conn.CreateCommand();
+            MySqlCommand Cmd = Conn.CreateCommand();
+            //Cmd.CommandText = "Insert into teachers(teacherfname, teacherlname, employeenumber, hiredate, salary) Values('" + fName + "','" + lName + "','" + empNum + "', '" + hireDateString + "', " + salary + ")";
+            Cmd.CommandText = "Insert into teachers(teacherfname, teacherlname, employeenumber, hiredate, salary) Values(@firstName,@lastName,@employeeNumber,@hireDate, @salary)";
+            Cmd.Parameters.AddWithValue("@firstName", fName);
+            Cmd.Parameters.AddWithValue("@lastName", lName);
+            Cmd.Parameters.AddWithValue("@employeeNumber", empNum);
+            Cmd.Parameters.AddWithValue("@hireDate", hireDateString);
+            Cmd.Parameters.AddWithValue("@salary", salary);
+            Cmd.Prepare();
+            //Debug.WriteLine(Cmd.CommandText);
+            Cmd.ExecuteNonQuery();
 
-            //Inputs the arguments of this method into the MySql query 
-            cmd.CommandText = "Select * from teachers WHERE (teacherfname LIKE '%" + FName + "%' AND teacherid LIKE '%" + id + "%' AND employeenumber LIKE '%" + EmpNumber + "%')";
-
-            MySqlDataReader ResultSet = cmd.ExecuteReader();
-
-            List<Teacher> Teachers = new List<Teacher> { };
-
-            //I wrote this as a loop because ideally, a user could search by only 1 of the 3 arguments (name or id or empnumber)
-            //in this case, there would be multiple teacher results from the database 
-            while (ResultSet.Read())
-            {
-
-                int TeacherId = (int)ResultSet["teacherid"];
-                string TeacherFname = (string)ResultSet["teacherfname"];
-                string TeacherLname = (string)ResultSet["teacherlname"];
-                string EmployeeNumber = (string)ResultSet["employeenumber"];
-                DateTime HireDate = (DateTime)ResultSet["hiredate"];
-                
-                Teacher NewTeacher = new Teacher();
-                NewTeacher.TeacherId = TeacherId;
-                NewTeacher.TeacherFname = TeacherFname;
-                NewTeacher.TeacherLname = TeacherLname;
-                NewTeacher.EmployeeNumber = EmployeeNumber;
-                NewTeacher.HireDate = HireDate;
-                //adds this iteration's NewTeacher to the list of teachers 
-                Teachers.Add(NewTeacher);
-            }
-
-            return Teachers;
-        }*/
+            Conn.Close();
+        }
 
     }
 }

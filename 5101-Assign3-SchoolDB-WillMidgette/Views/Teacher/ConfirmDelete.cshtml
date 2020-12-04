@@ -1,0 +1,13 @@
+﻿@model _5101_Assign3_SchoolDB_WillMidgette.Models.Teacher
+@{
+    ViewBag.Title = "ConfirmDelete";
+}
+<h2>Confirm Delete</h2>
+<br />
+<h3>Are you sure you want to delete @Model.TeacherFname @Model.TeacherLname from the database? You will not be able to reverse this action.</h3>
+<br />
+<a href="/teacher/list" style="float:left; font-size:20px;">No, do not delete</a>
+
+<form action="/teacher/deleteteacher/@Model.TeacherId" method="POST">
+    <button type="submit" style="float:right; color:red;font-size:20px" ;>Yes, I want to delete</button>
+</form>
